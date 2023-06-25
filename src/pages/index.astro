@@ -1,71 +1,57 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
 import { getBlogs } from '../libs/microcms'
+import '../styles/style.css'
+import Images from '../images/matrix.jpg'
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
 
 //MicroCMS呼び出し
 const response = await getBlogs({ fields: ["id", "title"] });
 ---
 
 <Layout title="Astro Blog">
-	<main>
-		<h1>Astro Blog</h1>
-		<ul>
-			{response.contents.map((blog:any) => (
-					<li>
-						<a href={blog.id}>📝{blog.title}</a>
-					</li>
-				))
-			}
-
-		</ul>
-	</main>
+    <Navigation title='kii weblog'/>
+    <!-- Page Header-->
+        <header class="masthead" style="background-image: url('src/images/matrix.jpg')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            <h1>kii weblog</h1>
+                            <span class="subheading">Engineer's notepad</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    <!-- Main Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <!-- Post preview-->
+                    <div class="post-preview">
+                        {response.contents.map((blog:any) => (
+                            <a href={blog.id}>
+                                <h2 class="post-title">{blog.title}</h2>
+                                <h3 class="post-subtitle">Problems look mighty small from 150 miles up</h3>
+                            </a>
+                            <p class="post-meta">
+                                Posted by
+                                <a href="#!">{blog.date}</a>
+                                {new Date(blog.publishedAt).toLocaleString()}
+                            </p>
+                            ))
+                        }
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    <!-- Pager-->
+                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts →</a></div>
+                </div>
+            </div>
+        </div>
+ <Footer />
+ <script src="../scripts/scripts"></script>
 </Layout>
 
-<style>
-	body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    color: #c88e8e;
-    line-height: 1.6;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    margin-top: 70px;
-  }
-
-  main {
-    margin: auto;
-    padding: 1em;
-    max-width: 60ch;
-    background-color: #dbdbdb;
-    box-shadow: 0 7px 7px rgba(0, 0, 0, 0.2);
-    border-radius: 5px;
-  }
-
-  h1 {
-    font-size: 2.5em;
-    color: #334257;
-    text-align: center;
-  }
-
-  ul {
-    padding: 0;
-    list-style-type: none;
-  }
-
-  li {
-    margin-bottom: 10px;
-		text-align: center;
-  }
-
-  a {
-    color: #6884bd;
-    text-decoration: none;
-    font-weight: 600;
-  }
-
-  a:hover {
-    color: #25603a;
-    text-decoration: underline;
-  }
-</style>
